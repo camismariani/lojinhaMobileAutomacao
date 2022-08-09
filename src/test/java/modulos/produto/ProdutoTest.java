@@ -2,6 +2,7 @@ package modulos.produto;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -50,8 +51,21 @@ public class ProdutoTest {
 
         // cadastrar um produto com valor invalido
 
-        // validar que a msg de valor invalido foi apresentada
+        app.findElement(By.id("com.lojinha:id/productName")).click();
+        app.findElement(By.id("com.lojinha:id/productName")).findElement(By.id("com.lojinha:id/editText")).sendKeys("Bolacha");
 
+        app.findElement(By.id("com.lojinha:id/productValue")).click();
+        app.findElement(By.id("com.lojinha:id/productValue")).findElement(By.id("com.lojinha:id/editText")).sendKeys("700001");
+
+        app.findElement(By.id("com.lojinha:id/productColors")).click();
+        app.findElement(By.id("com.lojinha:id/productColors")).findElement(By.id("com.lojinha:id/editText")).sendKeys("rosa,marrom");
+
+        app.findElement(By.id("com.lojinha:id/saveButton")).click();
+
+
+        // validar que a msg de valor invalido foi apresentada
+        String mensagemApresentada = app.findElement(By.xpath("//android.widget.Toast")).getText();
+        Assertions.assertEquals("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00",mensagemApresentada);
 
     }
 }

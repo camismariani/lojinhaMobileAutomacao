@@ -41,35 +41,19 @@ public class ProdutoTest {
     @DisplayName("Validação do Valor de produto não Permitido")
     public void testValidacaoDoValorDeProdutoNaoPermitido()  {
 
-        //Fazer login
-       new LoginPage(app)
+        String mensagemApresentada = new LoginPage(app)
                .informarUsuario(dotenv.get("env_user"))
                .informarSenha(dotenv.get("env_password"))
-               .submeterLogin();
-
-
-
-
-        //Abrir formulário de novo produto
-
-        app.findElement(By.id("com.lojinha:id/floatingActionButton")).click();
-
-        // cadastrar um produto com valor invalido
-
-        app.findElement(By.id("com.lojinha:id/productName")).click();
-        app.findElement(By.id("com.lojinha:id/productName")).findElement(By.id("com.lojinha:id/editText")).sendKeys("Bolacha");
-
-        app.findElement(By.id("com.lojinha:id/productValue")).click();
-        app.findElement(By.id("com.lojinha:id/productValue")).findElement(By.id("com.lojinha:id/editText")).sendKeys("700001");
-
-        app.findElement(By.id("com.lojinha:id/productColors")).click();
-        app.findElement(By.id("com.lojinha:id/productColors")).findElement(By.id("com.lojinha:id/editText")).sendKeys("rosa,marrom");
-
-        app.findElement(By.id("com.lojinha:id/saveButton")).click();
-
+               .submeterLogin()
+               .acessarFormularioAdicaoNovoProduto()
+               .informarNomeDoProduto("Bolacha Trakinas")
+               .informarValorDoProduto("700001")
+               .informarCoresDoProduto("Marrom,Rosa")
+               .submeterFormularioComErro()
+               .obterMensagemDeErro();
 
         // validar que a msg de valor invalido foi apresentada
-        String mensagemApresentada = app.findElement(By.xpath("//android.widget.Toast")).getText();
+
         Assertions.assertEquals("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00",mensagemApresentada);
 
     }

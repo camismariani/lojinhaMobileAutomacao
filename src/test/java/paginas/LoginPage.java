@@ -3,11 +3,10 @@ package paginas;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
-    private WebDriver app;
+public class LoginPage extends BaseTela {
 
     public LoginPage(WebDriver app){
-        this.app = app;
+        super(app);
     }
 
     public LoginPage informarUsuario(String usuario){
